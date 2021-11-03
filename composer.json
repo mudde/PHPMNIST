@@ -1,0 +1,15 @@
+{
+    "name": "mudde/phpmnist",
+    "description": "Train an Ai to read the MNIST dataset",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mudde",
+            "email": "olaf.mudde@xs4all.nl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "sciphp/numphp": "9999999-dev"
+    }
+}
