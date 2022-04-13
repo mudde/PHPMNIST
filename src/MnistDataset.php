@@ -1,6 +1,7 @@
 <?php
-
-declare(strict_types=1);
+/**
+ * Copy from: https://github.com/RT-coding-team/the-well-moodle310/blob/9261092f5de907f6776b78acca9e57ce663cfa49/lib/mlbackend/php/phpml/src/Phpml/Dataset/MnistDataset.php
+ */
 
 namespace App;
 
@@ -14,11 +15,8 @@ use Phpml\Exception\InvalidArgumentException;
 final class MnistDataset extends ArrayDataset
 {
     private const MAGIC_IMAGE = 0x00000803;
-
     private const MAGIC_LABEL = 0x00000801;
-
     private const IMAGE_ROWS = 28;
-
     private const IMAGE_COLS = 28;
 
     public function __construct(string $imagePath, string $labelPath)

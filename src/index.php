@@ -10,10 +10,10 @@
     Total time: 1438.5451290607
     Memory: 2.95 gb
 */
-define("ROOT_DIR", realpath(__DIR__ . '/..'));
-
 include '../vendor/autoload.php';
 include 'MnistDataset.php';
+
+define('EOL', chr(10) . chr(13));
 
 use App\MnistDataset;
 use Phpml\Classification\SVC;
@@ -23,38 +23,31 @@ use Phpml\SupportVectorMachine\Kernel;
 
 function convert($size)
 {
-    $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
+    $unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     return @round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
 }
 
-$start = $loadStart = microtime(true);
+$start = $loadStart = hrtime(true);
+echo 'Start the training!' . EOL;
+
 $trainDataset = new MnistDataset('data/train-images.idx3-ubyte', 'data/train-labels.idx1-ubyte');
 $testDataset = new MnistDataset('data/t10k-images.idx3-ubyte', 'data/t10k-labels.idx1-ubyte');
-$loadTime = microtime(true) - $loadStart;
+echo 'Load time: ' . hrtime(true) - $loadStart . EOL;
 
-echo `Load time: ${$loadTime}${PHP_EOL}`;
-
-$trainStart = microtime(true);
+$trainStart = hrtime(true);
 $classifier = new SVC(Kernel::POLYNOMIAL);
 $classifier->train($trainDataset->getSamples(), $trainDataset->getTargets());
+echo `Train time: ` . hrtime(true) - $trainStart . EOL;
 
-$trainTime = microtime(true) - $trainStart;
-echo `Train time: ${microtime(true) - $trainStart}`;
-
-$modelStart = microtime(true);
+$modelStart = hrtime(true);
 $modelManager = new ModelManager();
 $modelManager->saveToFile($classifier, __DIR__ . '/data/mnist-svm-model.phpml');
-$modelEnd = microtime(true) - $modelStart;
-echo `Persist time: ${$modelEnd}${PHP_EOL}`;
+echo `Persist time: ` . hrtime(true) - $modelStart . EOL;
 
-$predictStart = microtime(true);
+$predictStart = hrtime(true);
 $predicted = $classifier->predict($testDataset->getSamples());
-$predictEnd = microtime(true) - $predictStart;
-echo `Predict time: ${$predictEnd}${PHP_EOL}${PHP_EOL}`;
+echo `Predict time: ` . hrtime(true) - $predictStart . EOL;
 
-$accuracyScore = Accuracy::score($testDataset->getTargets(), $predicted);
-echo `Accuracy: ${$accuracyScore}${PHP_EOL}`;
-$totalTime = microtime(true) - $start;
-echo `Total time: {$totalTime}${PHP_EOL}`;
-$memory = convert(memory_get_peak_usage());
-echo `Memory: ${$memory}${PHP_EOL}`;
+echo `Accuracy: ` . Accuracy::score($testDataset->getTargets(), $predicted) . EOL;
+echo `Total time: ` . hrtime(true) - $start . EOL;
+echo `Memory: ` . convert(memory_get_peak_usage()) . EOL;
