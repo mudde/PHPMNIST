@@ -9,7 +9,13 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload-": {
+        "psr-4": {
+            "App\\": "../src/"
+        }
+    },
     "require": {
-        "sciphp/numphp": "9999999-dev"
+        "ext-zlib": "*",
+        "php-ai/php-ml": "^0.4.1"
     }
 }
