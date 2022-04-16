@@ -6,6 +6,12 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
+    <issueHandlers>
+        <MissingTemplateParam errorLevel="suppress" />
+        <MissingParamType errorLevel="suppress" />
+        <InvalidReturnType errorLevel="suppress" />
+        <MissingReturnType errorLevel="suppress" />
+    </issueHandlers>
     <projectFiles>
         <directory name="src" />
         <ignoreFiles>
