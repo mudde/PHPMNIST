@@ -17,5 +17,8 @@
     "require": {
         "ext-zlib": "*",
         "php-ai/php-ml": "^0.4.1"
+    },
+    "require-dev": {
+        "vimeo/psalm": "5.x-dev"
     }
 }
